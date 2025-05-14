@@ -3,15 +3,20 @@ import appwriteService from '../appwrite/config'
 import { Link } from 'react-router-dom'
 
 function PostCard({ $id, title, featuredImage }) {
+  
   const getImageViewUrl = (previewUrl) => {
     return previewUrl.replace('/preview', '/view')
   }
+  const imageUrl = featuredImage 
+    ? getImageViewUrl(appwriteService.getFilePreview(featuredImage))
+    : '/default-image.jpg' // fallback image
+
   return (
     <Link to={`/post/${$id}`}>
       <div className='w-full bg-gray-100 rounded-xl p-4'>
         <div className='w-full justify-center mb-4'>
           <img
-            src={getImageViewUrl(appwriteService.getFilePreview(featuredImage))}
+            src={imageUrl}
             alt={title}
             className="rounded-xl"
           />
